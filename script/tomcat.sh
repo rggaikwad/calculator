@@ -8,11 +8,11 @@ sudo apt -y install openjdk-11-jdk
 
 sudo useradd -r -m -U -d /opt/tomcat -s /bin/false tomcat
 
-wget https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.68/bin/apache-tomcat-9.0.68.tar.gz -P /tmp
+wget https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.86/bin/apache-tomcat-9.0.86.tar.gz -P /tmp
 
 sudo tar xf /tmp/apache-tomcat-9*.tar.gz -C /opt/tomcat
 
-sudo ln -s /opt/tomcat/apache-tomcat-9.0.68 /opt/tomcat/latest
+sudo ln -s /opt/tomcat/apache-tomcat-9.0.86 /opt/tomcat/latest
 
 sudo chown -RH tomcat:tomcat /opt/tomcat/latest
 
@@ -46,7 +46,6 @@ ExecStop=/opt/tomcat/latest/bin/shutdown.sh
 WantedBy=multi-user.target
 EOT
 '
-
 
 sudo systemctl daemon-reload
 

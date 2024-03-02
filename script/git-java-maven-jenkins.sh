@@ -10,12 +10,14 @@ sudo apt -y install openjdk-11-jdk
 
 sudo apt -y install maven
 
-wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
+sudo wget -O /usr/share/keyrings/jenkins-keyring.asc https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
 
-sudo sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
 
 sudo apt update
 
 sudo apt -y install jenkins
+
+sudo sh -c 'echo jenkins  ALL=\(ALL\) NOPASSWD:ALL >> /etc/sudoers'
 
 sudo cat /var/lib/jenkins/secrets/initialAdminPassword
