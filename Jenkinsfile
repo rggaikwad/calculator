@@ -8,12 +8,6 @@ pipeline {
       }
     }
 
-    stage('Hello') {
-      steps{
-        echo 'Hello World'
-      }
-    }
-
     stage('Test') {
       steps{
         sh 'mvn clean test'
