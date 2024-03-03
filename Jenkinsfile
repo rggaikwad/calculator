@@ -19,12 +19,5 @@ pipeline {
         sh 'mvn clean package'
       }
     }
-
-    stage('Deliver') {
-      steps{
-        deploy adapters: [tomcat9(credentialsId: 'tomcat', path: '', url: 'http://172.31.83.165:9090/')], contextPath: null, war: 'target/calculator.war'
-     }
-    }
-
   }
 }
