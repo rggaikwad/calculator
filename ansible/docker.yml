@@ -2,7 +2,7 @@
 - hosts: all
   become: true
   vars:
-    container_image: pbeniwal/calculator:v1
+    container_image: pbeniwal/calculator:v2
     container_name: mycalc8888
     docker_users:
       - 'ubuntu'
