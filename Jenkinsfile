@@ -22,7 +22,7 @@ pipeline {
 
     stage('Deliver') {
       steps{
-        deploy adapters: [tomcat9(credentialsId: 'tomcat', path: '', url: 'http://44.204.86.64:9090/')], contextPath: null, war: 'target/calculator.war'
+        deploy adapters: [tomcat9(credentialsId: '20cb2e91-2b63-46e0-88af-a0e1588c811e', path: '', url: 'http://44.204.86.64:9090/')], contextPath: 'Jenkinsfile', war: 'target/calculator.war'
       }
     }
   }
