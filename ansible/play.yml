@@ -1,0 +1,13 @@
+---
+- hosts: node01
+  become: yes
+  name: Installing apache2 on node01
+  tasks:
+  - name: Install apache2
+    apt:  update_cache=yes name=apache2 state=latest
+- hosts: node02
+  become: yes
+  name: Installing nginx on node02
+  tasks:
+  - name: Install nginx
+    apt:  update_cache=yes name=nginx state=latest
