@@ -1,29 +1,42 @@
 pipeline {
-  agent any
-  stages {
+    agent any
 
-    stage('Compile') {
-      steps{
-        sh 'mvn clean compile'
-      }
+    triggers {
+        githubPush()
     }
 
-    stage('UnitTest') {
-      steps{
-        sh 'mvn clean test'
-      }
+    environment {
+        IMAGE_NAME = "calculator-app"
     }
 
-    stage('Package') {
-      steps{
-        sh 'mvn clean package'
-      }
-    }
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
 
-    stage('Deliver') {
-      steps{
-        deploy adapters: [tomcat9(credentialsId: '20cb2e91-2b63-46e0-88af-a0e1588c811e', path: '', url: 'http://54.237.224.169:9090/')], contextPath: 'Jenkinsfile', war: 'target/calculator.war'
-      }
+        stage('Build') {
+            steps {
+                sh 'mvn clean package -DskipTests'
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                script {
+                    docker.build("${IMAGE_NAME}")
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+
+       
     }
-  }
 }
+
