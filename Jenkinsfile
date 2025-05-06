@@ -35,12 +35,6 @@ pipeline {
                 sh 'mvn test'
             }
         }
-
-        stage('Deploy') {
-            steps {
-                echo 'Deployment step goes here.'
-            }
-        }
     }
 }
 
