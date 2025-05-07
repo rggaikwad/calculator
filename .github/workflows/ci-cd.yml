@@ -45,7 +45,7 @@ jobs:
 
     - name: Deploy to Remote Server
       run: |
-        ssh -o StrictHostKeyChecking=no ubuntu@13.233.73.227 << 'EOF'
+        ssh -o StrictHostKeyChecking=no ubuntu@3.108.196.2 << 'EOF'
           docker pull rggaikwad17/calculator-app:${{ github.sha }}
           docker stop calculator-app || true && docker rm calculator-app || true
           docker run -d --name calculator-app -p 8080:8080 rggaikwad17/calculator-app:${{ github.sha }}
