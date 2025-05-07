@@ -1,40 +1,23 @@
 pipeline {
-    agent any
+  agent any
+  stages {
 
-    triggers {
-        githubPush()
+    stage('Compile') {
+      steps{
+        sh 'mvn clean compile'
+      }
     }
 
-    environment {
-        IMAGE_NAME = "calculator-app"
+    stage('UnitTest') {
+      steps{
+        sh 'mvn clean test'
+      }
     }
 
-    stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
-        stage('Build') {
-            steps {
-                sh 'mvn package'
-            }
-        }
-
-        stage('Docker Build') {
-            steps {
-                script {
-                    docker.build("${IMAGE_NAME}")
-                }
-            }
-        }
-
-        stage('Test') {
-            steps {
-                sh 'mvn test'
-            }
-        }
+    stage('Package') {
+      steps{
+        sh 'mvn clean package'
+      }
     }
+  }
 }
-
