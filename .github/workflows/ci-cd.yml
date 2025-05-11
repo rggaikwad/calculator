@@ -1,11 +1,21 @@
-- name: Set up SSH for Deployment
+name: CI/CD Pipeline
 
-  run: |
+on:
+  push:
+    branches:
+      - master
 
-    mkdir -p ~/.ssh
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
 
-    echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-    chmod 600 ~/.ssh/id_rsa
-
-    ssh-keyscan -H 3.108.196.2 >> ~/.ssh/known_hosts
+      - name: Set up SSH for Deployment
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H 13.127.29.225 >> ~/.ssh/known_hosts
