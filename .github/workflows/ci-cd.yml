@@ -6,43 +6,11 @@ on:
       - master
 
 jobs:
-  build-test-deploy:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up JDK 1.8
-        uses: actions/setup-java@v3
-        with:
-          java-version: '8'
-          distribution: 'adopt'
-
-      - name: Build with Maven
-        run: mvn clean install
-
-      - name: Run tests
-        run: mvn test
-
-      - name: Build Docker image
-        run: docker build -t rggaikwad17/calculator-app:${{ github.sha }} .
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Push Docker image to Docker Hub
-        run: docker push rggaikwad17/calculator-app:${{ github.sha }}
-
   deploy:
     runs-on: ubuntu-latest
-    needs: build-test-deploy  # ensures this runs *after* the previous job
 
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v3
 
       - name: Set up SSH for Deployment
@@ -51,7 +19,3 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H 13.127.234.139 >> ~/.ssh/known_hosts
-
-      # Example: Run deployment command (customize this as needed)
-      - name: Deploy over SSH
-        run: ssh -i ~/.ssh/id_rsa user@13.127.234.139 "docker pull rggaikwad17/calculator-app:${{ github.sha }} && docker run -d -p 80:8080 rggaikwad17/calculator-app:${{ github.sha }}"
